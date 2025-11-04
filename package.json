@@ -1,0 +1,52 @@
+{
+  "name": "@haitai-social/pit-history-utils",
+  "version": "1.0.0",
+  "description": "实用工具库，用于管理和导出 Haitai 社区的 IDE 历史记录片段",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"No automated tests specified\""
+  },
+  "keywords": [
+    "cli",
+    "prompt",
+    "git",
+    "ai",
+    "conversation",
+    "chat-history",
+    "prompt-management",
+    "conversation-logs",
+    "ai-tools",
+    "chat-records",
+    "version-control",
+    "tool-calls",
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "anthropic"
+  ],
+  "author": "haitai-social",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haitai-social/pit-history-utils-typescript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/haitai-social/pit-history-utils-typescript/issues"
+  },
+  "homepage": "https://github.com/haitai-social/pit-history-utils-typescript#readme",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^22.7.5",
+    "typescript": "^5.6.3"
+  }
+}

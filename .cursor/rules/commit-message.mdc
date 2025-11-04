@@ -1,0 +1,7 @@
+---
+description: Adapt when summarizing commit messages
+alwaysApply: false
+---
+
+- Summarize file changes in 2-3 short sentences in English.
+- Always start with tags like `bugfix:`, `feat:`, `opt:`, `refactor:`, etc.
