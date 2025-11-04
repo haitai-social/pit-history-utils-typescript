@@ -1,13 +1,16 @@
 {
   "name": "@haitai-social/pit-history-utils",
-  "version": "1.0.0",
-  "description": "实用工具库，用于管理和导出 Haitai 社区的 IDE 历史记录片段",
+  "version": "1.0.1",
+  "description": "Utility library for managing and exporting Haitai Community IDE history snippets",
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prepublishOnly": "npm run build",

@@ -11,8 +11,8 @@ export type {
 } from "./types/vibe-history-content";
 
 export type {
-  VibeHistoryV1Methods,
-  ExportedVibeHistoryV1JsonType,
-} from "./types/vibe-history-v1";
+  VibeHistoryMethods,
+  ExportedVibeHistoryJsonType,
+} from "./types/vibe-history";
 
 export { VibeHistoryModel };

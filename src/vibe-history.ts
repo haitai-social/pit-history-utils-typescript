@@ -4,10 +4,10 @@ import {
   VibeHistoryContentType,
 } from './types/vibe-history-content';
 import { SingleChatSchema, SingleChatType } from './types/single-chat';
-import { ExportedVibeHistoryV1JsonType, VibeHistoryV1Methods } from './types/vibe-history-v1';
+import { ExportedVibeHistoryJsonType, VibeHistoryMethods } from './types/vibe-history';
+import { JSON_VERSION } from './common/version';
 
-
-export class VibeHistoryModel implements VibeHistoryV1Methods {
+export class VibeHistoryModel implements VibeHistoryMethods {
   public content: VibeHistoryContentType;
 
   static fromJson(input: string): VibeHistoryModel {
@@ -16,10 +16,10 @@ export class VibeHistoryModel implements VibeHistoryV1Methods {
     try {
       parsedData = JSON.parse(input);
     } catch (error) {
-      throw new SyntaxError(`解析 JSON 失败: ${(error as Error).message}`);
+      throw new SyntaxError(`Failed to parse JSON: ${(error as Error).message}`);
     }
 
-    if ('version' in parsedData && parsedData.version === 'v1') {
+    if ('version' in parsedData && parsedData.version === JSON_VERSION) {
       if (!('content' in parsedData)) {
         throw new Error("Missing 'content' property in v1 history data");
       }
@@ -37,17 +37,17 @@ export class VibeHistoryModel implements VibeHistoryV1Methods {
 
   private validateIndex(index: number): void {
     if (!isInteger(index)) {
-      throw new TypeError(`index 必须是整数，当前值为 ${index}`);
+      throw new TypeError(`index must be an integer, current value is ${index}`);
     }
 
     if (index < 0 || index >= this.content.chat_list.length) {
-      throw new RangeError(`index 超出范围 (0 ~ ${this.content.chat_list.length - 1})，当前值为 ${index}`);
+      throw new RangeError(`index is out of range (0 ~ ${this.content.chat_list.length - 1}), current value is ${index}`);
     }
   }
 
   private validateNonEmptyString(value: string, fieldName: string): void {
     if (typeof value !== 'string' || isEmpty(value.trim())) {
-      throw new TypeError(`${fieldName} 必须是非空字符串`);
+      throw new TypeError(`${fieldName} must be a non-empty string`);
     }
   }
 
@@ -77,9 +77,9 @@ export class VibeHistoryModel implements VibeHistoryV1Methods {
     this.content.chat_list = [...this.content.chat_list, normalized];
   }
 
-  public toJSON(): ExportedVibeHistoryV1JsonType {
+  public toJSON(): ExportedVibeHistoryJsonType {
     return {
-      version: "v1",
+      version: JSON_VERSION,
       content: {
         ide_name: this.content.ide_name,
         chat_list: this.content.chat_list
