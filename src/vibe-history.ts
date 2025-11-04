@@ -4,7 +4,7 @@ import {
   VibeHistoryContentType,
 } from './types/vibe-history-content';
 import { SingleChatSchema, SingleChatType } from './types/single-chat';
-import { ExportedVibeHistoryJsonType, VibeHistoryMethods } from './types/vibe-history';
+import { VibeHistoryMethods } from './types/vibe-history';
 import { JSON_VERSION } from './common/version';
 
 export class VibeHistoryModel implements VibeHistoryMethods {
@@ -77,8 +77,8 @@ export class VibeHistoryModel implements VibeHistoryMethods {
     this.content.chat_list = [...this.content.chat_list, normalized];
   }
 
-  public toJSON(): ExportedVibeHistoryJsonType {
-    return {
+  public toJSON(): string {
+    const exportedObject = {
       version: JSON_VERSION,
       content: {
         ide_name: this.content.ide_name,
@@ -87,5 +87,6 @@ export class VibeHistoryModel implements VibeHistoryMethods {
           .map(({ is_select: _, ...rest }: SingleChatType) => rest),
       },
     };
+    return JSON.stringify(exportedObject, null, 2);
   }
 }

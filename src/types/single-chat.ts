@@ -8,11 +8,3 @@ export const SingleChatSchema = z.object({
 });
 
 export type SingleChatType = z.infer<typeof SingleChatSchema>;
-
-export const ExportedSingleChatSchema = z.object({
-  role: z.string().default(''),
-  name: z.string().default(''),
-  content: z.string().default(''),
-});
-
-export type ExportedSingleChatType = z.infer<typeof ExportedSingleChatSchema>;

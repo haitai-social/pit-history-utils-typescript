@@ -1,6 +1,7 @@
 # @haitai-social/pit-history-utils
 
-[![npm version](https://badge.fury.io/js/%40haitai-social%2Fpit-history-utils.svg)](https://badge.fury.io/js/%40haitai-social%2Fpit-history-utils)
+[![NPM Version](https://badge.fury.io/js/%40haitai-social%2Fpit-history-utils.svg)](https://badge.fury.io/js/%40haitai-social%2Fpit-history-utils)
+[![Node Version](https://img.shields.io/node/v/@haitai-social/pit-history-utils)](https://www.npmjs.com/package/@haitai-social/pit-history-utils)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A TypeScript utility library for managing and exporting Haitai Community IDE history snippets.
