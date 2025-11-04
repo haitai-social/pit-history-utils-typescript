@@ -1,0 +1,1 @@
+Summarize all changes in the diff along with the last commit message into a single message, and amend the current changes to the last commit.

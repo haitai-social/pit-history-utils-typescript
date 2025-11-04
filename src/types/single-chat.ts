@@ -1,7 +1,9 @@
 import { z } from 'zod';
 
+export const ROLE_ENUM = ['user', 'assistant', 'tool'] as const;
+
 export const SingleChatSchema = z.object({
-  role: z.string().default(''),
+  role: z.enum(ROLE_ENUM).default('user'),
   name: z.string().default(''),
   content: z.string().default(''),
   is_select: z.boolean().default(true),
