@@ -2,9 +2,9 @@ import { isInteger, isEmpty } from 'lodash';
 import {
   VibeHistoryContentSchema,
   VibeHistoryContentType,
-} from './types/haitai-history/vibe-history-content';
-import { SingleChatSchema, SingleChatType } from './types/haitai-history/single-chat';
-import { VibeHistoryMethods } from './types/haitai-history/vibe-history';
+} from './types/vibe-history-content';
+import { SingleChatSchema, SingleChatType } from './types/single-chat';
+import { VibeHistoryMethods } from './types/vibe-history';
 import { JSON_VERSION } from './common/version';
 
 export class VibeHistoryModel implements VibeHistoryMethods {

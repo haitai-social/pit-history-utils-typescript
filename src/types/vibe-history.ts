@@ -12,4 +12,6 @@ export interface VibeHistoryMethods {
 
 export interface VibeHistoryFactoryMethods {
   fromJson(input: string): VibeHistoryMethods;
+  fromCodexHistory(input: string): VibeHistoryMethods;
+  fromFileText(input: string): VibeHistoryMethods;
 }
