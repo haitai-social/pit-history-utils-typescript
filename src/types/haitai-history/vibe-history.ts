@@ -9,3 +9,7 @@ export interface VibeHistoryMethods {
   appendChatHistory(chat: SingleChatType): void;
   toJSON(): string;
 }
+
+export interface VibeHistoryFactoryMethods {
+  fromJson(input: string): VibeHistoryMethods;
+}

@@ -2,34 +2,13 @@ import { isInteger, isEmpty } from 'lodash';
 import {
   VibeHistoryContentSchema,
   VibeHistoryContentType,
-} from './types/vibe-history-content';
-import { SingleChatSchema, SingleChatType } from './types/single-chat';
-import { VibeHistoryMethods } from './types/vibe-history';
+} from './types/haitai-history/vibe-history-content';
+import { SingleChatSchema, SingleChatType } from './types/haitai-history/single-chat';
+import { VibeHistoryMethods } from './types/haitai-history/vibe-history';
 import { JSON_VERSION } from './common/version';
 
 export class VibeHistoryModel implements VibeHistoryMethods {
   public content: VibeHistoryContentType;
-
-  static fromJson(input: string): VibeHistoryModel {
-    let parsedData: object;
-
-    try {
-      parsedData = JSON.parse(input);
-    } catch (error) {
-      throw new SyntaxError(`Failed to parse JSON: ${(error as Error).message}`);
-    }
-
-    if ('version' in parsedData && parsedData.version === JSON_VERSION) {
-      if (!('content' in parsedData)) {
-        throw new Error("Missing 'content' property in v1 history data");
-      }
-      const content = VibeHistoryContentSchema.parse((parsedData as any)['content']);
-      return new VibeHistoryModel(content);
-    } else {
-      const content = VibeHistoryContentSchema.parse(parsedData);
-      return new VibeHistoryModel(content);
-    }
-  }
 
   constructor(content: VibeHistoryContentType) {
     this.content = content;
