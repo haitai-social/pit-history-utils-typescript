@@ -10,27 +10,6 @@ import { JSON_VERSION } from './common/version';
 export class VibeHistoryModel implements VibeHistoryMethods {
   public content: VibeHistoryContentType;
 
-  static fromJson(input: string): VibeHistoryModel {
-    let parsedData: object;
-
-    try {
-      parsedData = JSON.parse(input);
-    } catch (error) {
-      throw new SyntaxError(`Failed to parse JSON: ${(error as Error).message}`);
-    }
-
-    if ('version' in parsedData && parsedData.version === JSON_VERSION) {
-      if (!('content' in parsedData)) {
-        throw new Error("Missing 'content' property in v1 history data");
-      }
-      const content = VibeHistoryContentSchema.parse((parsedData as any)['content']);
-      return new VibeHistoryModel(content);
-    } else {
-      const content = VibeHistoryContentSchema.parse(parsedData);
-      return new VibeHistoryModel(content);
-    }
-  }
-
   constructor(content: VibeHistoryContentType) {
     this.content = content;
   }
@@ -76,7 +55,7 @@ export class VibeHistoryModel implements VibeHistoryMethods {
     this.content.chat_list = [...this.content.chat_list, normalized];
   }
 
-  public toJSON(): string {
+  public toJSONString(): string {
     const exportedObject = {
       version: JSON_VERSION,
       content: {

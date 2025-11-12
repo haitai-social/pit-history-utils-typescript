@@ -1,10 +1,8 @@
-import { VibeHistoryModel } from "./vibe-history";
-
-export type { SingleChatType } from "./types/single-chat";
-export type { VibeHistoryContentType } from "./types/vibe-history-content";
+export { JSON_VERSION } from "./common/version";
+export type { ROLE_ENUM, SingleChatSchema, SingleChatType } from "./types/single-chat";
+export type { IDE_NAME_ENUM, VibeHistoryContentSchema, VibeHistoryContentType } from "./types/vibe-history-content";
 export type { VibeHistoryMethods } from "./types/vibe-history";
+export type { VibeHistoryFactoryMethods } from "./types/vibe-history";
 
-export { SingleChatSchema } from "./types/single-chat";
-export { VibeHistoryContentSchema } from "./types/vibe-history-content";
-
-export { VibeHistoryModel };
+export { VibeHistoryModel } from "./vibe-history-model";
+export { VibeHistoryFactory } from "./vibe-history-factory";
