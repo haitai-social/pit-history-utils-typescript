@@ -55,7 +55,7 @@ export class VibeHistoryModel implements VibeHistoryMethods {
     this.content.chat_list = [...this.content.chat_list, normalized];
   }
 
-  public toJSON(): string {
+  public toJSONString(): string {
     const exportedObject = {
       version: JSON_VERSION,
       content: {

@@ -7,11 +7,12 @@ export interface VibeHistoryMethods {
   editNameAtIndex(index: number, newName: string): void;
   editIdeName(newName: string): void;
   appendChatHistory(chat: SingleChatType): void;
-  toJSON(): string;
+  toJSONString(): string;
 }
 
 export interface VibeHistoryFactoryMethods {
-  fromJson(input: string): VibeHistoryMethods;
-  fromCodexHistory(input: string): VibeHistoryMethods;
-  fromFileText(input: string): VibeHistoryMethods;
+  fromJsonString(input: string): VibeHistoryMethods | null;
+  fromCodexHistory(input: string): VibeHistoryMethods | null;
+  fromCursorHistory(input: string): VibeHistoryMethods | null;
+  fromFileText(input: string): VibeHistoryMethods | null;
 }

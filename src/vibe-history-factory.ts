@@ -5,7 +5,7 @@ import { SingleChatSchema, SingleChatType } from "./types/single-chat";
 import { VibeHistoryModel } from "./vibe-history-model";
 
 class VibeHistoryFactoryImpl implements VibeHistoryFactoryMethods {
-    public fromJson(input: string): VibeHistoryModel {
+    public fromJsonString(input: string): VibeHistoryModel | null {
         let parsedData: object;
 
         try {
@@ -26,7 +26,7 @@ class VibeHistoryFactoryImpl implements VibeHistoryFactoryMethods {
         }
     }
 
-    public fromCodexHistory(input: string): VibeHistoryModel {
+    public fromCodexHistory(input: string): VibeHistoryModel | null {
         const lines = input.split('\n').filter(line => line.trim().length > 0);
         const chatList: SingleChatType[] = [];
         let codexContextModel = '';
@@ -60,6 +60,10 @@ class VibeHistoryFactoryImpl implements VibeHistoryFactoryMethods {
             }
         }
 
+        if (chatList.length === 0) {
+            return null;
+        }
+
         const content = VibeHistoryContentSchema.parse({
             ide_name: 'codex',
             chat_list: chatList,
@@ -68,13 +72,81 @@ class VibeHistoryFactoryImpl implements VibeHistoryFactoryMethods {
         return new VibeHistoryModel(content);
     }
 
-    public fromFileText(input: string): VibeHistoryModel {
-        try {
-            return this.fromCodexHistory(input);
-        } catch (error) {
-            // 如果 fromCodexHistory 失败，则尝试 fromJson
-            return this.fromJson(input);
+    public fromCursorHistory(input: string): VibeHistoryModel | null {
+        // 依据 '\n---\n' 分割文件成 sections
+        const sections = input.split('\n---\n').filter(section => section.trim().length > 0);
+        const chatList: SingleChatType[] = [];
+
+        for (const section of sections) {
+            const lines = section.split('\n').filter(line => line.trim().length > 0);
+
+            if (lines.length === 0) {
+                continue;
+            }
+
+            // 检查第一行是否是 '**User**' 或 '**Cursor**'
+            const firstLine = lines[0].trim();
+            let role: 'user' | 'assistant' | undefined;
+            let name = '';
+
+            if (firstLine === '**User**') {
+                role = 'user';
+                name = 'user';
+            } else if (firstLine === '**Cursor**') {
+                role = 'assistant';
+                name = 'assistant';
+            } else {
+                // 如果不是以指定的头部开头，跳过这个section
+                continue;
+            }
+
+            // 提取内容（去掉头部后的所有行）
+            const contentLines = lines.slice(1);
+            const content = contentLines.join('\n').trim();
+
+            if (content.length > 0) {
+                const singleChat = SingleChatSchema.parse({
+                    role: role,
+                    name: name,
+                    content: content,
+                    is_select: true,
+                });
+                chatList.push(singleChat);
+            }
         }
+
+        if (chatList.length === 0) {
+            return null;
+        }
+
+        const content = VibeHistoryContentSchema.parse({
+            ide_name: 'cursor',
+            chat_list: chatList,
+        });
+
+        return new VibeHistoryModel(content);
+    }
+
+    public fromFileText(input: string): VibeHistoryModel | null {
+        try {
+            let cursorModel = this.fromCursorHistory(input);
+            if (cursorModel) {
+                return cursorModel;
+            }
+        } catch (error) {
+            // ignore
+        }
+
+        try {
+            let codexModel = this.fromCodexHistory(input);
+            if (codexModel) {
+                return codexModel;
+            }
+        } catch (error) {
+            // ignore
+        }
+
+        return this.fromJsonString(input);
     }
 
     private convertCodexRecordToSingleChat(codexRecord: any, codexModel: string): SingleChatType | null {
