@@ -5,6 +5,7 @@ export interface VibeHistoryMethods {
   unselectChatAtIndex(index: number): void;
   selectChatAtIndex(index: number): void;
   editNameAtIndex(index: number, newName: string): void;
+  editContentAtIndex(index: number, newContent: string): void;
   editIdeName(newName: string): void;
   appendChatHistory(chat: SingleChatType): void;
   toJSONString(): string;

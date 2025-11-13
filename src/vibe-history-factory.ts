@@ -163,6 +163,7 @@ class VibeHistoryFactoryImpl implements VibeHistoryFactoryMethods {
             return null;
         }
 
+        const extraContentParts: string[] = [];
         const contentParts: string[] = [];
         switch (role) {
             case 'user':
@@ -172,7 +173,25 @@ class VibeHistoryFactoryImpl implements VibeHistoryFactoryMethods {
                     }
                     for (const item of payload.content) {
                         if (item.type === 'input_text') {
-                            contentParts.push(item.text);
+                            const text = item.text;
+                            const lines = text.split('\n');
+                            const requestIndex = lines.findIndex((line: string) => line.trim() === '## My request for Codex:');
+
+                            if (requestIndex !== -1) {
+                                // 如果找到 "## My request for Codex:" 行
+                                const extraLines = lines.slice(0, requestIndex);
+                                const contentLines = lines.slice(requestIndex + 1);
+
+                                if (extraLines.length > 0) {
+                                    extraContentParts.push(extraLines.join('\n'));
+                                }
+                                if (contentLines.length > 0) {
+                                    contentParts.push(contentLines.join('\n'));
+                                }
+                            } else {
+                                // 如果没找到，所有内容都放到 extraContentParts
+                                extraContentParts.push(text);
+                            }
                         }
                     }
                     break;
@@ -193,13 +212,25 @@ class VibeHistoryFactoryImpl implements VibeHistoryFactoryMethods {
                 return null;
         }
 
+        const extraContent = extraContentParts.join('\n');
         const content = contentParts.join('\n');
-        return SingleChatSchema.parse({
-            role: role,
-            name: codexModel,
-            content: content,
-            is_select: true,
-        });
+
+        if (contentParts.length > 0) {
+            return SingleChatSchema.parse({
+                role: role,
+                name: codexModel,
+                extra_content: extraContent,
+                content: content,
+                is_select: true,
+            });
+        } else {
+            return SingleChatSchema.parse({
+                role: role,
+                name: codexModel,
+                content: extraContent,
+                is_select: true,
+            });
+        }
     }
 }
 

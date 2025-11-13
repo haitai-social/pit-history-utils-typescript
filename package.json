@@ -1,6 +1,6 @@
 {
   "name": "@haitai-social/pit-history-utils",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Utility library for managing and exporting Haitai Community IDE history snippets",
   "license": "MIT",
   "main": "./dist/index.js",

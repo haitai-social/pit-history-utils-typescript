@@ -46,6 +46,12 @@ export class VibeHistoryModel implements VibeHistoryMethods {
     this.content.chat_list[index].name = newName;
   }
 
+  public editContentAtIndex(index: number, newContent: string): void {
+    this.validateNonEmptyString(newContent, 'newContent');
+    this.validateIndex(index);
+    this.content.chat_list[index].content = newContent;
+  }
+
   public editIdeName(newName: VibeHistoryContentType['ide_name']): void {
     this.content.ide_name = newName;
   }
